@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.ts"
+    "dev": "nodemon src/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -15,11 +15,14 @@
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.12",
     "@types/joi": "^17.2.3",
+    "@types/jsonwebtoken": "^8.5.8",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "express-async-errors": "^3.1.1",
     "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.19",
     "prisma": "^4.1.1"
   },
