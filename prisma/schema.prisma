@@ -10,6 +10,69 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-associate {
-  
+model Associate {
+  id             Int      @id @default(autoincrement())
+  name           String
+  cpf            String
+  birthdate      DateTime
+  createdAt      String
+  latitude       String
+  longitude      String
+  vigencyDate    DateTime @default(now())
+  vigencyEndDate DateTime?  
+  password       String 
+
+  @@map("associate")
 }
+
+model CardRequest {
+  id             Int           @id @default(autoincrement())
+  createdAt      DateTime      @default(now())
+  logo           String
+  account_number String
+  end_date       DateTime
+  current_status String
+  describe       String
+  push_describe  String
+  CardProcess    CardProcess[]
+}
+
+model CardProcess {
+  id             Int         @id @default(autoincrement())
+  card_id        Int
+  card           Card        @relation(fields: [card_id], references: [id])
+  card_request   Int
+  CardRequest    CardRequest @relation(fields: [card_request], references: [id])
+  createdAt      DateTime    @default(now())
+  current_status String
+  // Current_Status => ready to shipping, in coming, received
+}
+
+model Card {
+  id             Int           @id @default(autoincrement())
+  number         String
+  name           String
+  cvv            String
+  expirationDate DateTime
+  logo           String
+  limit          Float
+  createdAt      DateTime
+  isBlocked      Boolean
+  blockDate      DateTime
+  CardProcess    CardProcess[]
+}
+
+// model Limit{
+//   id             Int           @id @default(autoincrement())
+//   change_date DateTime
+//   change_type (fit, increase)
+//   change_level (account, card)
+//   card_account_id
+//   card_id
+//   current_limit
+//   previous_limit
+//   previous_id
+//   vingency_date
+// }
+
+// select * from limit where limit.cardid = cardid
