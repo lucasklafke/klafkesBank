@@ -27,7 +27,6 @@ function validateSignIn(associate : any, password: string){
 
 export async function signUp(data : CreateAssociateData ){
     const associate = await verifyCpfExist(data.cpf)
-    console.log(associate)
     if(associate){
         throw {type: "conflict", message: "Cpf already registered"}
     }

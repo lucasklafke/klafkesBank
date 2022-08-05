@@ -11,16 +11,16 @@ datasource db {
 }
 
 model Associate {
-  id             Int      @id @default(autoincrement())
+  id             Int       @id @default(autoincrement())
   name           String
   cpf            String
-  birthdate      DateTime
+  birthdate      DateTime  @db.Date
   createdAt      String
   latitude       String
   longitude      String
-  vigencyDate    DateTime @default(now())
-  vigencyEndDate DateTime?  
-  password       String 
+  vigencyDate    DateTime  @default(now())
+  vigencyEndDate DateTime?
+  password       String
 
   @@map("associate")
 }

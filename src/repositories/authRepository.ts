@@ -8,14 +8,14 @@ export async function getByCpf(cpf : string){
 
 export async function create(data : CreateAssociateData){
     const {cpf, password, birthdate, longitude,latitude,name} = data
+
     return await prisma.associate.create({data: {
         cpf, 
         password, 
-        birthdate, 
+        birthdate: new Date(data.birthdate), 
         longitude,
         latitude,
         name,
-        vigencyEndDate: "",
         createdAt: ""        
     }})
 }
