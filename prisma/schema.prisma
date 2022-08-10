@@ -11,26 +11,28 @@ datasource db {
 }
 
 model Associate {
-  id             Int       @id @default(autoincrement())
+  id             Int           @id @default(autoincrement())
   name           String
   cpf            String
-  birthdate      DateTime  @db.Date
+  birthdate      DateTime      @db.Date
   createdAt      String
   latitude       String
   longitude      String
-  vigencyDate    DateTime  @default(now())
+  vigencyDate    DateTime      @default(now())
   vigencyEndDate DateTime?
   password       String
+  Account        Account[]
+  CardAccount    CardAccount[]
 
   @@map("associate")
 }
 
 model CardRequest {
   id             Int           @id @default(autoincrement())
-  createdAt      DateTime      @default(now())
+  createdAt      DateTime?     @default(now())
   logo           String
-  account_number String
-  end_date       DateTime
+  account_number String?
+  end_date       DateTime?
   current_status String
   describe       String
   push_describe  String
@@ -50,21 +52,75 @@ model CardProcess {
 
 model Card {
   id             Int           @id @default(autoincrement())
-  number         String         @unique
+  number         String
   name           String
   cvv            String
   expirationDate DateTime
   logo           String
   limit          Float
-  createdAt      DateTime
-  isBlocked      Boolean
-  blockDate      DateTime
+  createdAt      DateTime?     @default(now())
+  block_code     String
+  blockDate      DateTime?
+  isMainCard     Boolean?
+  type           String
   CardProcess    CardProcess[]
+  Limit          Limit[]
+  password       String
+  cpf            String        
+}
+
+model Limit {
+  id              Int         @id @default(autoincrement())
+  change_date     DateTime
+  change_type     String
+  change_level    String
+  card_account_id Int
+  CardAccount     CardAccount @relation(fields: [card_account_id], references: [id])
+  card_id         Int
+  Card            Card        @relation(fields: [card_id], references: [id])
+  current_limit   Int
+  previous_limit  Int
+  previous_id     Int
+  vingency_date   DateTime    @db.Date
+}
+
+model Account {
+  id             Int           @id @default(autoincrement())
+  account_number String
+  createdAt      DateTime?     @default(now())
+  canceledAt     DateTime?
+  status         String
+  associateId    Int
+  Associate      Associate     @relation(fields: [associateId], references: [id])
+  balance        Int
+  account_type   String
+  updatedAt      DateTime      @default(now())
+  CardAccount    CardAccount[]
+}
+
+model CardAccount {
+  id             Int        @id @default(autoincrement())
+  accountId      Int
+  Account        Account    @relation(fields: [accountId], references: [id])
+  approved_limit Int
+  selected_limit Int
+  avaible_limit  Int?
+  dueday         DateTime
+  invoice_value  Float?
+  status         String
+  canceledAt     DateTime?
+  createdAt      DateTime?  @default(now())
+  block_code     String
+  logo           String
+  default_code   String
+  Limit          Limit[]
+  Associate      Associate? @relation(fields: [associateId], references: [id])
+  associateId    Int?
 }
 
 // model Limit{
 //   id             Int           @id @default(autoincrement())
-//   change_date DateTime
+//   change_date   DateTime
 //   change_type (fit, increase)
 //   change_level (account, card)
 //   card_account_id

@@ -1,9 +1,12 @@
 
 import { CreateAssociateData } from "../controllers/authController.js";
 import * as authRepository from "../repositories/authRepository.js"
+import * as associateRepository from "../repositories/associateRepository.js"
 import { compareBcrypt, encrypt } from "../utils/bcryptFunctions.js";
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
+import {faker} from "@faker-js/faker"
+
 dotenv.config()
 
 async function verifyCpfExist(cpf : string){
@@ -32,7 +35,10 @@ export async function signUp(data : CreateAssociateData ){
     }
     const hashedPassword = encrypt(data.password)
     data.password = hashedPassword
-    await authRepository.create(data)
+    const register = await authRepository.create(data)
+    if(register){
+        await createAccount(register.id)
+    }
 }
 
 
@@ -47,6 +53,17 @@ export async function signIn(cpf : string, password : string){
     return token
 }
 
+export async function createAccount(associateId: number){
+    const account_number = faker.finance.account(10)
+    const data = {
+        account_number,
+        status: "readyToWork",
+        associateId,
+        balance: 0,
+        account_type: "current"
+    }
+    return await associateRepository.createAccount(data)
+}
 
 const authService = {
     signUp,

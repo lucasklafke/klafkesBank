@@ -9,5 +9,4 @@ export function encrypt(string : string){
 
 export function compareBcrypt(string : string, hashString: string){
     return bcrypt.compare(string, hashString)
-
 }
