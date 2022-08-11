@@ -1,7 +1,7 @@
 import { calculateCardLimit, cardRequestFilter } from "../utils/calcAlgorithms.js";
 import { compareBcrypt } from "../utils/bcryptFunctions.js";
-import * as associateRepository from "../repositories/associateRepository.js"
-import * as cardRepository from "../repositories/cardRepository.js"
+import {getById, getAccountByAssociateId, getCardAccountByAccountId} from "../repositories/associateRepository.js"
+import {cardRepository} from "../repositories/cardRepository.js"
 import { formatTimestampToBirthdate, nameFormatter, getDateToCard } from "../utils/dataFormatters.js";
 import {receivedData} from "../controllers/cardController.js"
 import { faker } from '@faker-js/faker';
@@ -23,8 +23,10 @@ export interface createCardAccountData {
 }
 
 export async function validateIdentity(associateId:number, password: string){
-    const associate = await associateRepository.getById(associateId)
-    
+    const associate = await getById(associateId)
+    if(!associate){
+        throw {type: "not_found", message:"associate not found"}
+    }
     const comparedPassword = compareBcrypt(password, associate.password)
     if(!comparedPassword){
         throw {type : "unauthorized", message : "Invalid password"}
@@ -63,11 +65,10 @@ export async function createCard(receivedCardData : receivedData, associate: Ass
     
     return card
 
-    // const process = await createCardProcess()
-
 }
 
 export async function createVirtualCard(card: any){
+    console.log("copycard",card)
     card["block_code"] = "working123"
     card["type"] = "virtual" 
 
@@ -76,8 +77,8 @@ export async function createVirtualCard(card: any){
 }
 
 export async function createCardAccount(cardAccountData : receivedData, associateId : number){
-    const {id} = await associateRepository.getAccountByAssociateId(associateId)
-    const cardAccount = await associateRepository.getCardAccountByAccountId(id)
+    const {id} = await getAccountByAssociateId(associateId)
+    const cardAccount = await getCardAccountByAccountId(id)
     if(cardAccount){
         return cardAccount
     }
@@ -102,7 +103,7 @@ export async function createCardAccount(cardAccountData : receivedData, associat
 }
 
 export async function createRequest(data : receivedData, associate : Associate){
-    const account = await associateRepository.getAccountByAssociateId(associate.id)
+    const account = await getAccountByAssociateId(associate.id)
     const physicalCard = await cardRepository.getPhysicalCardByAssociateCPF(associate.cpf)
     if(physicalCard){
         throw {type: "conflict", message: "You already have a physical card"}
@@ -128,7 +129,7 @@ export async function createRequest(data : receivedData, associate : Associate){
 }
 
 export async function getCards(associateId: number){
-    const {cpf} = await associateRepository.getById(associateId)
+    const {cpf} = await getById(associateId)
     const cards = await cardRepository.getCardsByAssociateCpf(cpf)
     return cards
 }

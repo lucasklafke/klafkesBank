@@ -12,19 +12,28 @@ export interface receivedData {
 }
 export async function createCard(req: Request, res: Response){
     const {income, password, logo, limit, invoice_dueday, type, name, cardPassword} = req.body
-    console.log(req.body)
+
     const {associateId} = res.locals.jwtData
     const associate = await cardService.validateIdentity(associateId, password)
+
     const request = await cardService.createRequest({income, password, logo, limit, invoice_dueday,type, name, cardPassword},associate)
-    console.log(associateId)
     if(request.current_status === "declined"){
         return res.status(400).send(request.push_describe)
     }
 
     const cardAccount = await cardService.createCardAccount({income, password, logo, limit, invoice_dueday,type, name, cardPassword}, associateId)
+
     const card = await cardService.createCard({income, password, logo, limit, invoice_dueday, type, name, cardPassword},associate)
-    const cardCopy = card
-    const virtualCard = await cardService.createVirtualCard(cardCopy)
+    const copyCard = {
+        ...card
+    }
+    // number: true,
+//         name: true,
+//         cvv:true,
+    //         logo: true,
+    //         type: true,
+
+    const virtualCard = await cardService.createVirtualCard(copyCard)
     res.status(201).send(card)
 }
 

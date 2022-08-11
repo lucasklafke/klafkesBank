@@ -5,6 +5,8 @@ import {createCardData} from "../services/cardService.js"
 type CreateRequestData = Omit<CardRequest, "id" | "createdAt">
 
 import { createCardAccountData } from "../services/cardService.js"
+
+
 export async function createCardRequest(requestData : CreateRequestData ){
     return await prisma.cardRequest.create({
         data: requestData
@@ -54,9 +56,6 @@ export async function getPhysicalCardByAssociateCPF(cpf: string){
 
 export async function getCardsByAssociateCpf(cpf:string){
     const cards = await prisma.card.findMany({
-        orderBy:[
-            {type: "asc"}
-        ],
         where: {
             cpf
         },
@@ -70,4 +69,13 @@ export async function getCardsByAssociateCpf(cpf:string){
     })
     return cards
     console.log(cards)
+}
+
+export const cardRepository = {
+    createCard,
+    createCardAccount,
+    getPhysicalCardByAssociateCPF,
+    getCardsByAssociateCpf,
+    createCardRequest,
+    createProcess
 }

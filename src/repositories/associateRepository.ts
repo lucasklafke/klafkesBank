@@ -35,3 +35,11 @@ export async function getCardAccountByAccountId(accountId: number){
         }
     })
 }
+
+export const associateRepository = {
+    getById,
+    getByCpf,
+    getAccountByAssociateId,
+    createAccount,
+    getCardAccountByAccountId
+}

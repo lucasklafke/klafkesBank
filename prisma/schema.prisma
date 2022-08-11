@@ -66,7 +66,7 @@ model Card {
   CardProcess    CardProcess[]
   Limit          Limit[]
   password       String
-  cpf            String        
+  cpf            String
 }
 
 model Limit {
