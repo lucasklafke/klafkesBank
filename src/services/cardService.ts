@@ -68,12 +68,25 @@ export async function createCard(receivedCardData : receivedData, associate: Ass
 }
 
 export async function createVirtualCard(card: any){
-    console.log("copycard",card)
+    let number = faker.finance.creditCardNumber()
+
+    const cvv = faker.finance.creditCardCVV()
+    delete card.id
     card["block_code"] = "working123"
     card["type"] = "virtual" 
+    card["cvv"] = cvv
+    
+    let cardExist = await cardRepository.getCardByNumber(number)
+    if(cardExist){
+        do {
+            number = faker.finance.creditCardNumber()
+            cardExist = await cardRepository.getCardByNumber(number)
+        } while(cardExist)
+    }
+    card["number"] = number
 
-    await cardRepository.createCard(card)
-    return 
+    return await cardRepository.createCard(card)
+     
 }
 
 export async function createCardAccount(cardAccountData : receivedData, associateId : number){
@@ -104,10 +117,13 @@ export async function createCardAccount(cardAccountData : receivedData, associat
 
 export async function createRequest(data : receivedData, associate : Associate){
     const account = await getAccountByAssociateId(associate.id)
-    const physicalCard = await cardRepository.getPhysicalCardByAssociateCPF(associate.cpf)
-    if(physicalCard){
-        throw {type: "conflict", message: "You already have a physical card"}
-    }
+    const physicalCards = await cardRepository.getManyPhysicalCardsByAssociateCPF(associate.cpf)
+
+    physicalCards.forEach(card => {
+        if(card.block_code === "working123" || card.block_code === "ready_to_working123"){
+            throw {type: "conflict", message: "You already have a physical card"}
+        }
+    })
     const age = formatTimestampToBirthdate(associate.birthdate)
     const status = await cardRequestFilter(data.income, age)
     if(!account){
@@ -132,4 +148,9 @@ export async function getCards(associateId: number){
     const {cpf} = await getById(associateId)
     const cards = await cardRepository.getCardsByAssociateCpf(cpf)
     return cards
+}
+
+export async function getCard(cardId: number){
+    const card = await cardRepository.getCardById(cardId)
+    return card
 }

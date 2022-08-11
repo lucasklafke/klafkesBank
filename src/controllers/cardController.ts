@@ -27,14 +27,9 @@ export async function createCard(req: Request, res: Response){
     const copyCard = {
         ...card
     }
-    // number: true,
-//         name: true,
-//         cvv:true,
-    //         logo: true,
-    //         type: true,
 
     const virtualCard = await cardService.createVirtualCard(copyCard)
-    res.status(201).send(card)
+    res.status(201).send({card, virtualCard})
 }
 
 
@@ -42,4 +37,10 @@ export async function getCards(req: Request, res: Response){
     const {associateId} = res.locals.jwtData
     const cards = await cardService.getCards(associateId)
     res.send(cards)
+}
+
+export async function getCard(req: Request, res: Response){
+    const {cardId} = req.params
+    const card = await cardService.getCard(Number(cardId))
+    res.send(card)
 }

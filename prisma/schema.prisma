@@ -52,7 +52,7 @@ model CardProcess {
 
 model Card {
   id             Int           @id @default(autoincrement())
-  number         String
+  number         String        @unique
   name           String
   cvv            String
   expirationDate DateTime

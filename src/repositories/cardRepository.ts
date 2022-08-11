@@ -21,7 +21,7 @@ export async function createCard(cardData: createCardData){
     const card =  await prisma.card.create({
         data: cardData,
         select: {
-            id: false,
+            id: true,
             createdAt:false, 
             blockDate:false, 
             isMainCard: false,
@@ -45,10 +45,26 @@ export async function createCardAccount(createCardAccountData : createCardAccoun
     })
 }
 
-export async function getPhysicalCardByAssociateCPF(cpf: string){
-    return await prisma.card.findFirst({
+export async function getManyPhysicalCardsByAssociateCPF(cpf: string){
+    return await prisma.card.findMany({
         where: {
             type: "physical"
+        }
+    })
+}
+
+export async function getManyVirtualCardsByAssociateCPF(cpf: string){
+    return await prisma.card.findMany({
+        where: {
+            type: "virtual"
+        }
+    })
+}
+
+export async function getCardById(cardId: number){
+    return await prisma.card.findFirst({
+        where: {
+            id: cardId
         }
     })
 }
@@ -68,14 +84,23 @@ export async function getCardsByAssociateCpf(cpf:string){
         }
     })
     return cards
-    console.log(cards)
+}
+
+export async function getCardByNumber(number: string){
+    return await prisma.card.findFirst({
+        where: {
+            number
+        }
+    })
 }
 
 export const cardRepository = {
     createCard,
     createCardAccount,
-    getPhysicalCardByAssociateCPF,
+    getManyPhysicalCardsByAssociateCPF,
     getCardsByAssociateCpf,
     createCardRequest,
-    createProcess
+    createProcess,
+    getCardByNumber,
+    getCardById
 }
