@@ -116,7 +116,7 @@ describe("card tests", () => {
                 jest.spyOn(associateRepository, "getAccountByAssociateId").mockImplementation(():any => {
                         return {id:1}
                 })
-                jest.spyOn(cardRepository, "getPhysicalCardByAssociateCPF").mockImplementation(():any => {
+                jest.spyOn(cardRepository, "getManyPhysicalCardsByAssociateCPF").mockImplementation(():any => {
                         return true
                 })
                 const associate = {
@@ -157,7 +157,7 @@ describe("card tests", () => {
                 jest.spyOn(associateRepository, "getAccountByAssociateId").mockImplementation(():any => {
                         return {id:1}
                 })
-                jest.spyOn(cardRepository, "getPhysicalCardByAssociateCPF").mockImplementation(():any => {
+                jest.spyOn(cardRepository, "getManyPhysicalCardsByAssociateCPF").mockImplementation(():any => {
                         return false
                 })
 
@@ -202,7 +202,7 @@ describe("card tests", () => {
                 jest.spyOn(associateRepository, "getAccountByAssociateId").mockImplementation(():any => {
                         return {id:1}
                 })
-                jest.spyOn(cardRepository, "getPhysicalCardByAssociateCPF").mockImplementation(():any => {
+                jest.spyOn(cardRepository, "getManyPhysicalCardsByAssociateCPF").mockImplementation(():any => {
                         return false
                 })
 
