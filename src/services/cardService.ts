@@ -35,7 +35,7 @@ export async function validateIdentity(associateId:number, password: string){
 }
 
 function generateCard(){
-    const number = faker.finance.creditCardNumber()
+    const number = faker.finance.creditCardNumber('63[7-9]#-####-####-###L')
     const cvv = faker.finance.creditCardCVV()
     const expirationDate = getDateToCard()
     return {
@@ -68,7 +68,7 @@ export async function createCard(receivedCardData : receivedData, associate: Ass
 }
 
 export async function createVirtualCard(card: any){
-    let number = faker.finance.creditCardNumber()
+    let number = faker.finance.creditCardNumber('63[7-9]#-####-####-###L')
 
     const cvv = faker.finance.creditCardCVV()
     delete card.id
@@ -79,7 +79,7 @@ export async function createVirtualCard(card: any){
     let cardExist = await cardRepository.getCardByNumber(number)
     if(cardExist){
         do {
-            number = faker.finance.creditCardNumber()
+            number = faker.finance.creditCardNumber('63[7-9]#-####-####-###L')
             cardExist = await cardRepository.getCardByNumber(number)
         } while(cardExist)
     }

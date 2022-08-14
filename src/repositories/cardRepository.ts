@@ -48,7 +48,8 @@ export async function createCardAccount(createCardAccountData : createCardAccoun
 export async function getManyPhysicalCardsByAssociateCPF(cpf: string){
     return await prisma.card.findMany({
         where: {
-            type: "physical"
+            type: "physical",
+            cpf
         }
     })
 }
@@ -76,11 +77,15 @@ export async function getCardsByAssociateCpf(cpf:string){
             cpf
         },
         select : {
+            id:true,
             number: true,
             name: true,
             cvv:true,
             logo: true,
             type: true,
+            expirationDate: true,
+            createdAt: true,
+            limit:true
         }
     })
     return cards

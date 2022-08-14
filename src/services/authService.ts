@@ -15,7 +15,7 @@ async function verifyCpfExist(cpf : string){
    
 }
 async function generateJWT(cpf : string, associateId : number, associateName: string){
-    return jwt.sign({cpf, associateId, associateName}, process.env.JWT_SECRET, {expiresIn : "1h"})
+    return jwt.sign({cpf, associateId, associateName}, process.env.JWT_SECRET, {expiresIn : "12h"})
 }
 
 function validateSignIn(associate : any, password: string){
