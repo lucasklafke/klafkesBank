@@ -49,7 +49,6 @@ export async function signIn(cpf : string, password : string){
     validateSignIn(associate, password)
 
     const token = await generateJWT(cpf, associate.id, associate.name)
-    console.log("tok",token)
     return token
 }
 

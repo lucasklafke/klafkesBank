@@ -20,6 +20,7 @@ export interface createCardAccountData {
     status: string,
     block_code: string,
     default_code: string
+    invoice_value: number
 }
 
 export async function validateIdentity(associateId:number, password: string){
@@ -110,18 +111,22 @@ export async function createCardAccount(cardAccountData : receivedData, associat
         logo: cardAccountData.logo,
         status: "working",
         block_code: "working123",
-        default_code: "working123"
+        default_code: "working123",
+        invoice_value: 0
     }
     return await cardRepository.createCardAccount(createCardAccountData)
 }
 
-export async function createLimit(card_account_id:number){
+export async function createLimit(card_account_id:number, cardId: number){
     const limitData = {
         card_account_id,
         used_limit: 0,
         current_limit: 700,
         previous_limit:700,
+        status: "current",
+        cardId
     }
+    return await cardRepository.createLimit(limitData)
 }
 
 export async function createRequest(data : receivedData, associate : Associate){

@@ -41,9 +41,20 @@ export async function updateBalance(balance:number, accountId:number){
             id: accountId,
         },
         data: {
-            balance
+            balance,
+            updatedAt: new Date()
         }
     })
+}
+
+export async function getCardAccountByAssociateId(associateId:number){
+    return await prisma.cardAccount.findFirst({
+        where: {
+            associateId,
+            status:"working"
+        }
+    })
+
 }
 
 export const associateRepository = {
@@ -52,5 +63,6 @@ export const associateRepository = {
     getAccountByAssociateId,
     createAccount,
     getCardAccountByAccountId,
-    updateBalance
+    updateBalance,
+    getCardAccountByAssociateId
 }

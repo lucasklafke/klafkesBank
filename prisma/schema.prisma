@@ -106,7 +106,7 @@ model CardAccount {
   selected_limit Int
   avaible_limit  Int?
   dueday         DateTime
-  invoice_value  Float?
+  invoice_value  Float
   status         String
   canceledAt     DateTime?
   createdAt      DateTime?  @default(now())
@@ -115,7 +115,7 @@ model CardAccount {
   default_code   String
   Limit          Limit[]
   Associate      Associate? @relation(fields: [associateId], references: [id])
-  associateId    Int?
+  associateId    Int
 }
 
 model Purchase {

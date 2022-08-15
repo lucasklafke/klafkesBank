@@ -6,7 +6,6 @@ type CreateRequestData = Omit<CardRequest, "id" | "createdAt">
 
 import { createCardAccountData } from "../services/cardService.js"
 
-
 export async function createCardRequest(requestData : CreateRequestData ){
     return await prisma.cardRequest.create({
         data: requestData
@@ -32,7 +31,8 @@ export async function createCard(cardData: createCardData){
             logo:true,
             password:true,
             cpf:true,
-            type:true
+            type:true,
+            card_account_id:true
         }
     })
     return card
@@ -44,7 +44,8 @@ export async function createCardAccount(createCardAccountData : createCardAccoun
     })
 }
 
-export async function createLimit(data:Limit){
+type CreateLimit = Omit<Limit, "id" | "createdAt" | "previous_id" | "vingency_date" | "change_date">
+export async function createLimit(data:CreateLimit){
     await prisma.limit.create({
         data
     })
@@ -59,7 +60,7 @@ export async function getLimit(cardAccount:number){
     })
 
 }
-export async function updateLimit(id:number,used_limit:number){
+export async function updateUsedLimit(id:number,used_limit:number){
     return await prisma.limit.update({
         where: {
             id
@@ -122,6 +123,16 @@ export async function getCardByNumber(number: string){
         }
     })
 }
+export async function updateInvoiceValue(id: number, value: number){
+    return await prisma.cardAccount.update({
+        where: {
+            id
+        },
+        data: {
+            invoice_value: value
+        }
+    })
+}
 
 export const cardRepository = {
     createCard,
@@ -133,5 +144,7 @@ export const cardRepository = {
     getCardByNumber,
     getCardById,
     getLimit,
-    updateLimit
+    updateUsedLimit,
+    createLimit,
+    updateInvoiceValue
 }
