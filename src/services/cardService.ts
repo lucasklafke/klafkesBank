@@ -46,7 +46,7 @@ function generateCard(){
 
 }
 
-export async function createCard(receivedCardData : receivedData, associate: Associate){
+export async function createCard(receivedCardData : receivedData, associate: Associate,card_account_id:number){
 
     const generatedInfos = generateCard()
     const cardData = {
@@ -55,11 +55,11 @@ export async function createCard(receivedCardData : receivedData, associate: Ass
         cvv: generatedInfos.cvv,
         expirationDate: generatedInfos.expirationDate,
         logo: receivedCardData.logo,
-        limit: Number(receivedCardData.limit),
         block_code: "ready_to_working123",
         type: receivedCardData.type,
         password: receivedCardData.cardPassword,
-        cpf: associate.cpf
+        cpf: associate.cpf,
+        card_account_id
     }
     const card =  await cardRepository.createCard(cardData)
     
@@ -113,6 +113,15 @@ export async function createCardAccount(cardAccountData : receivedData, associat
         default_code: "working123"
     }
     return await cardRepository.createCardAccount(createCardAccountData)
+}
+
+export async function createLimit(card_account_id:number){
+    const limitData = {
+        card_account_id,
+        used_limit: 0,
+        current_limit: 700,
+        previous_limit:700,
+    }
 }
 
 export async function createRequest(data : receivedData, associate : Associate){

@@ -22,8 +22,8 @@ export async function createCard(req: Request, res: Response){
     }
 
     const cardAccount = await cardService.createCardAccount({income, password, logo, limit, invoice_dueday,type, name, cardPassword}, associateId)
-
-    const card = await cardService.createCard({income, password, logo, limit, invoice_dueday, type, name, cardPassword},associate)
+    await cardService.createLimit(cardAccount.id)
+    const card = await cardService.createCard({income, password, logo, limit, invoice_dueday, type, name, cardPassword},associate,cardAccount.id)
     const copyCard = {
         ...card
     }

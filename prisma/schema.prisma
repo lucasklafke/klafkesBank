@@ -51,37 +51,37 @@ model CardProcess {
 }
 
 model Card {
-  id             Int           @id @default(autoincrement())
-  number         String        @unique
-  name           String
-  cvv            String
-  expirationDate DateTime
-  logo           String
-  limit          Float
-  createdAt      DateTime?     @default(now())
-  block_code     String
-  blockDate      DateTime?
-  isMainCard     Boolean?
-  type           String
-  CardProcess    CardProcess[]
-  Limit          Limit[]
-  password       String
-  cpf            String
+  id              Int           @id @default(autoincrement())
+  number          String        @unique
+  name            String
+  cvv             String
+  expirationDate  DateTime
+  logo            String
+  createdAt       DateTime?     @default(now())
+  block_code      String
+  blockDate       DateTime?
+  isMainCard      Boolean?
+  type            String
+  CardProcess     CardProcess[]
+  Limit           Limit[]
+  password        String
+  cpf             String
+  card_account_id Int
 }
 
 model Limit {
   id              Int         @id @default(autoincrement())
-  change_date     DateTime
-  change_type     String
-  change_level    String
+  change_date     DateTime?   @default(now())
   card_account_id Int
   CardAccount     CardAccount @relation(fields: [card_account_id], references: [id])
-  card_id         Int
-  Card            Card        @relation(fields: [card_id], references: [id])
+  used_limit      Int
   current_limit   Int
   previous_limit  Int
-  previous_id     Int
-  vingency_date   DateTime    @db.Date
+  previous_id     Int?
+  vingency_date   DateTime?   @default(now())
+  status          String
+  Card            Card?       @relation(fields: [cardId], references: [id])
+  cardId          Int?
 }
 
 model Account {
@@ -118,17 +118,15 @@ model CardAccount {
   associateId    Int?
 }
 
-// model Limit{
-//   id             Int           @id @default(autoincrement())
-//   change_date   DateTime
-//   change_type (fit, increase)
-//   change_level (account, card)
-//   card_account_id
-//   card_id
-//   current_limit
-//   previous_limit
-//   previous_id
-//   vingency_date
-// }
+model Purchase {
+  id        Int       @id @default(autoincrement())
+  amount    Int
+  card_id   Int
+  createdAt DateTime? @default(now())
+}
 
-// select * from limit where limit.cardid = cardid
+model Deposit {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime? @default(now())
+  amount    Float?
+}

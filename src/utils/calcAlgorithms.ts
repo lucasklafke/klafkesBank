@@ -1,3 +1,4 @@
+import { Purchase } from "@prisma/client"
 export async function calculateCardLimit(income : number,age: number ){
     if(age < 18){
         if(income >= 1000){
@@ -31,4 +32,12 @@ export async function cardRequestFilter(income : number,age: number){
             return "accepted"
         }
         return "declined"
+}
+
+export async function calculateInvoice(purchases: Purchase[]){
+    let invoice = 0
+    purchases.forEach(purchase => {
+        invoice += purchase.amount
+    })
+    return invoice
 }

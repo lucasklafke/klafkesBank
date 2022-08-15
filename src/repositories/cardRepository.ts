@@ -1,5 +1,5 @@
 import prisma from "../config/db.js"
-import { Card, CardRequest } from "@prisma/client"
+import { Card, CardRequest, Limit} from "@prisma/client"
 import {createCardData} from "../services/cardService.js"
 
 type CreateRequestData = Omit<CardRequest, "id" | "createdAt">
@@ -30,7 +30,6 @@ export async function createCard(cardData: createCardData){
             name: true,
             expirationDate:true,
             logo:true,
-            limit:true,
             password:true,
             cpf:true,
             type:true
@@ -42,6 +41,32 @@ export async function createCard(cardData: createCardData){
 export async function createCardAccount(createCardAccountData : createCardAccountData){
     return await prisma.cardAccount.create({
         data:createCardAccountData
+    })
+}
+
+export async function createLimit(data:Limit){
+    await prisma.limit.create({
+        data
+    })
+}
+
+export async function getLimit(cardAccount:number){
+    return await prisma.limit.findFirst({
+        where: {
+            card_account_id: cardAccount,
+            status: "current"
+        }
+    })
+
+}
+export async function updateLimit(id:number,used_limit:number){
+    return await prisma.limit.update({
+        where: {
+            id
+        },
+        data: {
+            used_limit
+        }
     })
 }
 
@@ -85,7 +110,6 @@ export async function getCardsByAssociateCpf(cpf:string){
             type: true,
             expirationDate: true,
             createdAt: true,
-            limit:true
         }
     })
     return cards
@@ -107,5 +131,7 @@ export const cardRepository = {
     createCardRequest,
     createProcess,
     getCardByNumber,
-    getCardById
+    getCardById,
+    getLimit,
+    updateLimit
 }
