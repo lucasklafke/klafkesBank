@@ -132,12 +132,14 @@ export async function createLimit(card_account_id:number, cardId: number){
 export async function createRequest(data : receivedData, associate : Associate){
     const account = await getAccountByAssociateId(associate.id)
     const physicalCards = await cardRepository.getManyPhysicalCardsByAssociateCPF(associate.cpf)
+    if(physicalCards.length !== 0){
+        physicalCards.forEach(card => {
+            if(card.block_code === "working123" || card.block_code === "ready_to_working123"){
+                throw {type: "conflict", message: "You already have a physical card"}
+            }
+        })
+    }
 
-    physicalCards.forEach(card => {
-        if(card.block_code === "working123" || card.block_code === "ready_to_working123"){
-            throw {type: "conflict", message: "You already have a physical card"}
-        }
-    })
     const age = formatTimestampToBirthdate(associate.birthdate)
     const status = await cardRequestFilter(data.income, age)
     if(!account){

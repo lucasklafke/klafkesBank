@@ -79,7 +79,7 @@ describe("card tests", () => {
                         "cardPassword": "3142"
                 }
                 try{
-                        const card = await cardService.createCard(receivedCard,associate)
+                        const card = await cardService.createCard(receivedCard,associate,1)
 
                         expect(card).toBeDefined()
                 }catch(err){
@@ -117,7 +117,7 @@ describe("card tests", () => {
                         return {id:1}
                 })
                 jest.spyOn(cardRepository, "getManyPhysicalCardsByAssociateCPF").mockImplementation(():any => {
-                        return true
+                        return [{block_code: "working123"}]
                 })
                 const associate = {
                         id:1,
@@ -158,7 +158,7 @@ describe("card tests", () => {
                         return {id:1}
                 })
                 jest.spyOn(cardRepository, "getManyPhysicalCardsByAssociateCPF").mockImplementation(():any => {
-                        return false
+                        return []
                 })
 
                 jest.spyOn(cardRepository, "createCardRequest").mockImplementation((infos):any => {
@@ -203,7 +203,7 @@ describe("card tests", () => {
                         return {id:1}
                 })
                 jest.spyOn(cardRepository, "getManyPhysicalCardsByAssociateCPF").mockImplementation(():any => {
-                        return false
+                        return []
                 })
 
                 jest.spyOn(cardRepository, "createCardRequest").mockImplementation((infos):any => {
