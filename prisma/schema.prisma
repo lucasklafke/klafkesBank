@@ -47,7 +47,6 @@ model CardProcess {
   CardRequest    CardRequest @relation(fields: [card_request], references: [id])
   createdAt      DateTime    @default(now())
   current_status String
-  // Current_Status => ready to shipping, in coming, received
 }
 
 model Card {

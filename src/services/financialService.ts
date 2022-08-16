@@ -13,6 +13,9 @@ export async function invoicePay(associateId:number){
 
 export async function getInvoice(associateId:number){
         const cardAccount = await associateRepository.getCardAccountByAssociateId(associateId)
+        if(!cardAccount){
+                return {invoice_value: "0"}
+        }
         return await financialRepository.getInvoice(cardAccount.id)
 }
 export const financialService = {
