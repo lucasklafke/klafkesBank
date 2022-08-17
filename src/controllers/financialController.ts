@@ -14,6 +14,13 @@ export async function getInvoice(req: Request, res: Response){
         return res.send({invoice_value})
 }
 
+export async function getLimit(req:Request,res:Response){
+        const {jwtData} = res.locals
+        const {associateId} = jwtData
+        const limit = await financialService.getLimit(associateId)
+        res.send(limit)
+}       
+
 export async function invoicePay(req: Request, res: Response){
         const {jwtData} = res.locals
         const {associateId} = jwtData

@@ -1,6 +1,6 @@
 import { calculateCardLimit, cardRequestFilter } from "../utils/calcAlgorithms.js";
 import { compareBcrypt } from "../utils/bcryptFunctions.js";
-import {getById, getAccountByAssociateId, getCardAccountByAccountId} from "../repositories/associateRepository.js"
+import {getById, getAccountByAssociateId, getCardAccountByAccountId, associateRepository} from "../repositories/associateRepository.js"
 import {cardRepository} from "../repositories/cardRepository.js"
 import { formatTimestampToBirthdate, nameFormatter, getDateToCard } from "../utils/dataFormatters.js";
 import {receivedData} from "../controllers/cardController.js"
@@ -169,4 +169,10 @@ export async function getCards(associateId: number){
 export async function getCard(cardId: number){
     const card = await cardRepository.getCardById(cardId)
     return card
+}
+
+export async function changeLimit(limit : number, associateId: number){
+    const cardAccount = await associateRepository.getCardAccountByAssociateId(associateId)
+    await cardRepository.changeLimit(limit, cardAccount.id)
+    return 
 }

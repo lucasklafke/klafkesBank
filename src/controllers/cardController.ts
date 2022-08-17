@@ -32,7 +32,6 @@ export async function createCard(req: Request, res: Response){
     res.status(201).send({card, virtualCard})
 }
 
-
 export async function getCards(req: Request, res: Response){
     const {associateId} = res.locals.jwtData
     const cards = await cardService.getCards(associateId)
@@ -43,4 +42,12 @@ export async function getCard(req: Request, res: Response){
     const {cardId} = req.params
     const card = await cardService.getCard(Number(cardId))
     res.send(card)
+}
+
+export async function changeLimit(req: Request, res:Response){
+    const {limit} = req.body
+    const {jwtData} = res.locals
+    const {associateId} = jwtData
+    await cardService.changeLimit(limit,associateId)
+    res.sendStatus(200)
 }

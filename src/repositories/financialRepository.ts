@@ -31,8 +31,22 @@ export async function invoicePay(accountId: number){
         }
     })
 }
+
+export async function getLimit(accountId:number){
+    return await prisma.cardAccount.findFirst({
+        where:{
+            id:accountId
+        },
+        select:{
+            selected_limit:true
+        }
+    })
+
+}
+
 export const financialRepository = {
         getBalance,
         invoicePay,
-        getInvoice
+        getInvoice,
+        getLimit
 }

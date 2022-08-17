@@ -31,7 +31,7 @@ async function purchase(data : purchaseReceivedData, associateId: number){
         throw {type:"conflict", message:"insufficient limit"}
     }
 
-    const newPurchase = await transactionRepository.purchase({amount:data.amount,card_id:data.card})
+    const newPurchase = await transactionRepository.purchase({amount:data.amount,card_account_id:cardAccount.id})
     const used_limit = await cardRepository.updateUsedLimit(limit.id,newUsedLimit)
     const updatedInvoice = Number(data.amount) + Number(cardAccount.invoice_value)
     return await cardRepository.updateInvoiceValue(cardAccount.id,Number(updatedInvoice))

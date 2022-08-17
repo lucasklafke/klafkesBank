@@ -16,8 +16,8 @@ model Associate {
   cpf            String
   birthdate      DateTime      @db.Date
   createdAt      String
-  latitude       String
-  longitude      String
+  latitude       String?
+  longitude      String?
   vigencyDate    DateTime      @default(now())
   vigencyEndDate DateTime?
   password       String
@@ -118,10 +118,10 @@ model CardAccount {
 }
 
 model Purchase {
-  id        Int       @id @default(autoincrement())
-  amount    Int
-  card_id   Int
-  createdAt DateTime? @default(now())
+  id              Int       @id @default(autoincrement())
+  amount          Int
+  card_account_id Int
+  createdAt       DateTime? @default(now())
 }
 
 model Deposit {

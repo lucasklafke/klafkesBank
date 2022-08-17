@@ -134,6 +134,18 @@ export async function updateInvoiceValue(id: number, value: number){
     })
 }
 
+export async function changeLimit(limit:number, accountId:number){
+    await prisma.cardAccount.update({
+        where: {
+            id:accountId
+        },
+        data: {
+            selected_limit: limit
+        }
+    })
+
+}
+
 export const cardRepository = {
     createCard,
     createCardAccount,
@@ -146,5 +158,6 @@ export const cardRepository = {
     getLimit,
     updateUsedLimit,
     createLimit,
-    updateInvoiceValue
+    updateInvoiceValue,
+    changeLimit
 }
