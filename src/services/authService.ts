@@ -33,8 +33,10 @@ export async function signUp(data : CreateAssociateData ){
     if(associate){
         throw {type: "conflict", message: "Cpf already registered"}
     }
+
     const hashedPassword = encrypt(data.password)
     data.password = hashedPassword
+    
     const register = await authRepository.create(data)
     if(register){
         await createAccount(register.id)

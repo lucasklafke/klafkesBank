@@ -55,7 +55,8 @@ FN:91,getCardById
 FN:100,getCardsByAssociateCpf
 FN:119,getCardByNumber
 FN:126,updateInvoiceValue
-FNF:13
+FN:137,changeLimit
+FNF:14
 FNH:1
 FNDA:0,createCardRequest
 FNDA:0,createProcess
@@ -70,6 +71,7 @@ FNDA:0,getCardById
 FNDA:0,getCardsByAssociateCpf
 FNDA:1,getCardByNumber
 FNDA:0,updateInvoiceValue
+FNDA:0,changeLimit
 DA:10,0
 DA:16,0
 DA:20,0
@@ -85,8 +87,9 @@ DA:101,0
 DA:116,0
 DA:120,1
 DA:127,0
-DA:137,1
-LF:16
+DA:138,0
+DA:149,1
+LF:17
 LH:2
 BRF:0
 BRH:0
@@ -103,7 +106,8 @@ FN:132,createRequest
 FN:136,(anonymous_20)
 FN:163,getCards
 FN:169,getCard
-FNF:10
+FN:174,changeLimit
+FNF:11
 FNH:6
 FNDA:3,validateIdentity
 FNDA:1,generateCard
@@ -115,6 +119,7 @@ FNDA:3,createRequest
 FNDA:1,(anonymous_20)
 FNDA:0,getCards
 FNDA:0,getCard
+FNDA:0,changeLimit
 DA:27,3
 DA:28,3
 DA:29,0
@@ -173,7 +178,10 @@ DA:165,0
 DA:166,0
 DA:170,0
 DA:171,0
-LF:58
+DA:175,0
+DA:176,0
+DA:177,0
+LF:61
 LH:35
 BRDA:28,0,0,0
 BRDA:32,1,0,0

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1660654843838" clover="3.2.0">
-  <project timestamp="1660654843838" name="All files">
-    <metrics statements="128" coveredstatements="53" conditionals="39" coveredconditionals="6" methods="39" coveredmethods="13" elements="206" coveredelements="72" complexity="0" loc="128" ncloc="128" packages="4" files="7" classes="7"/>
+<coverage generated="1664301702796" clover="3.2.0">
+  <project timestamp="1664301702796" name="All files">
+    <metrics statements="132" coveredstatements="53" conditionals="39" coveredconditionals="6" methods="41" coveredmethods="13" elements="212" coveredelements="72" complexity="0" loc="132" ncloc="132" packages="4" files="7" classes="7"/>
     <package name="config">
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="db.ts" path="/home/lucas/Documents/back/klafkesBank/src/config/db.ts">
+      <file name="db.ts" path="/home/lucasnkz11/documents/back/klafkesbank/src/config/db.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
       </file>
     </package>
     <package name="repositories">
-      <metrics statements="24" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="20" coveredmethods="3"/>
-      <file name="associateRepository.ts" path="/home/lucas/Documents/back/klafkesBank/src/repositories/associateRepository.ts">
+      <metrics statements="25" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="21" coveredmethods="3"/>
+      <file name="associateRepository.ts" path="/home/lucasnkz11/documents/back/klafkesbank/src/repositories/associateRepository.ts">
         <metrics statements="8" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="2"/>
         <line num="7" count="0" type="stmt"/>
         <line num="11" count="3" type="stmt"/>
@@ -23,8 +23,8 @@
         <line num="51" count="0" type="stmt"/>
         <line num="60" count="1" type="stmt"/>
       </file>
-      <file name="cardRepository.ts" path="/home/lucas/Documents/back/klafkesBank/src/repositories/cardRepository.ts">
-        <metrics statements="16" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="13" coveredmethods="1"/>
+      <file name="cardRepository.ts" path="/home/lucasnkz11/documents/back/klafkesbank/src/repositories/cardRepository.ts">
+        <metrics statements="17" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="14" coveredmethods="1"/>
         <line num="10" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
         <line num="20" count="0" type="stmt"/>
@@ -40,13 +40,14 @@
         <line num="116" count="0" type="stmt"/>
         <line num="120" count="1" type="stmt"/>
         <line num="127" count="0" type="stmt"/>
-        <line num="137" count="1" type="stmt"/>
+        <line num="138" count="0" type="stmt"/>
+        <line num="149" count="1" type="stmt"/>
       </file>
     </package>
     <package name="services">
-      <metrics statements="58" coveredstatements="35" conditionals="9" coveredconditionals="3" methods="10" coveredmethods="6"/>
-      <file name="cardService.ts" path="/home/lucas/Documents/back/klafkesBank/src/services/cardService.ts">
-        <metrics statements="58" coveredstatements="35" conditionals="9" coveredconditionals="3" methods="10" coveredmethods="6"/>
+      <metrics statements="61" coveredstatements="35" conditionals="9" coveredconditionals="3" methods="11" coveredmethods="6"/>
+      <file name="cardService.ts" path="/home/lucasnkz11/documents/back/klafkesbank/src/services/cardService.ts">
+        <metrics statements="61" coveredstatements="35" conditionals="9" coveredconditionals="3" methods="11" coveredmethods="6"/>
         <line num="27" count="3" type="stmt"/>
         <line num="28" count="3" type="cond" truecount="0" falsecount="1"/>
         <line num="29" count="0" type="stmt"/>
@@ -105,11 +106,14 @@
         <line num="166" count="0" type="stmt"/>
         <line num="170" count="0" type="stmt"/>
         <line num="171" count="0" type="stmt"/>
+        <line num="175" count="0" type="stmt"/>
+        <line num="176" count="0" type="stmt"/>
+        <line num="177" count="0" type="stmt"/>
       </file>
     </package>
     <package name="utils">
       <metrics statements="44" coveredstatements="11" conditionals="30" coveredconditionals="3" methods="9" coveredmethods="4"/>
-      <file name="bcryptFunctions.ts" path="/home/lucas/Documents/back/klafkesBank/src/utils/bcryptFunctions.ts">
+      <file name="bcryptFunctions.ts" path="/home/lucasnkz11/documents/back/klafkesbank/src/utils/bcryptFunctions.ts">
         <metrics statements="5" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
         <line num="3" count="1" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
@@ -117,7 +121,7 @@
         <line num="7" count="0" type="stmt"/>
         <line num="11" count="3" type="stmt"/>
       </file>
-      <file name="calcAlgorithms.ts" path="/home/lucas/Documents/back/klafkesBank/src/utils/calcAlgorithms.ts">
+      <file name="calcAlgorithms.ts" path="/home/lucasnkz11/documents/back/klafkesbank/src/utils/calcAlgorithms.ts">
         <metrics statements="24" coveredstatements="3" conditionals="26" coveredconditionals="3" methods="4" coveredmethods="1"/>
         <line num="3" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="4" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -144,7 +148,7 @@
         <line num="40" count="0" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
       </file>
-      <file name="dataFormatters.ts" path="/home/lucas/Documents/back/klafkesBank/src/utils/dataFormatters.ts">
+      <file name="dataFormatters.ts" path="/home/lucasnkz11/documents/back/klafkesbank/src/utils/dataFormatters.ts">
         <metrics statements="15" coveredstatements="6" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="2"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>

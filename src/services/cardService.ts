@@ -162,17 +162,20 @@ export async function createRequest(data : receivedData, associate : Associate){
 
 export async function getCards(associateId: number){
     const {cpf} = await getById(associateId)
+    if(!cpf) throw {message: 'cpf not found', type: "not_found"}
     const cards = await cardRepository.getCardsByAssociateCpf(cpf)
+    if(cards.length === 0) throw { message: 'you have no cards', type: 'conflict'}
     return cards
 }
 
 export async function getCard(cardId: number){
     const card = await cardRepository.getCardById(cardId)
+    if(!card) throw { message: 'card not found', type: 'not_found'}
     return card
 }
 
 export async function changeLimit(limit : number, associateId: number){
     const cardAccount = await associateRepository.getCardAccountByAssociateId(associateId)
-    await cardRepository.changeLimit(limit, cardAccount.id)
-    return 
+    if(!cardAccount) throw { message: 'card account not found', type: 'not_found'}
+    await cardRepository.changeLimit(limit, cardAccount.id) 
 }

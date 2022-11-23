@@ -9,12 +9,14 @@ export async function deposit(req: Request, res: Response){
     const balance = await transactionService.deposit(amount,associateId)
     res.send(balance)
 }
+
 export interface purchaseReceivedData {
     name: string,
     amount: number,
     card: number,
     password: string
 }
+
 export async function purchase(req: Request, res: Response){
     const {name, amount, password,card} = req.body
     const {jwtData} = res.locals
