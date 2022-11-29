@@ -1,27 +1,15 @@
 import { calculateCardLimit, cardRequestFilter } from "../utils/calcAlgorithms.js";
 import { compareBcrypt } from "../utils/bcryptFunctions.js";
-import {getById, getAccountByAssociateId, getCardAccountByAccountId, associateRepository} from "../repositories/associateRepository.js"
+import {getById} from "../repositories/associateRepository.js"
 import {cardRepository} from "../repositories/cardRepository.js"
 import { formatTimestampToBirthdate, nameFormatter, getDateToCard } from "../utils/dataFormatters.js";
-import {receivedData} from "../controllers/cardController.js"
+import { CreateCardData } from "../dto/card.dto.js"
 import { faker } from '@faker-js/faker';
 import { Associate } from "@prisma/client";
 import { Card } from "@prisma/client";
+import { accountRepository } from "../repositories/accountRepository.js";
 
 export type createCardData = Omit<Card, "id" | "createdAt" | "blockDate" | "isMainCard">
-
-export interface createCardAccountData {
-    associateId : number,
-    accountId: number,
-    selected_limit: number,
-    approved_limit: number,
-    dueday: Date,
-    logo: string,
-    status: string,
-    block_code: string,
-    default_code: string
-    invoice_value: number
-}
 
 export async function validateIdentity(associateId:number, password: string){
     const associate = await getById(associateId)
@@ -47,7 +35,7 @@ function generateCard(){
 
 }
 
-export async function createCard(receivedCardData : receivedData, associate: Associate,card_account_id:number){
+export async function createCard(receivedCardData : CreateCardData, associate: Associate,card_account_id:number){
 
     const generatedInfos = generateCard()
     const cardData = {
@@ -90,47 +78,8 @@ export async function createVirtualCard(card: any){
      
 }
 
-export async function createCardAccount(cardAccountData : receivedData, associateId : number){
-    const {id} = await getAccountByAssociateId(associateId)
-    const cardAccount = await getCardAccountByAccountId(id)
-    if(cardAccount){
-        return cardAccount
-    }
-
-
-    const date = new Date()
-    const year = date.getFullYear() + 5
-    const month = date.getMonth()
-    const dueday = new Date(`${year}-${month}-${cardAccountData.invoice_dueday}`)
-    const createCardAccountData = {
-        associateId,
-        accountId: id,
-        selected_limit: Number(cardAccountData.limit),
-        approved_limit: 700,
-        dueday: dueday,
-        logo: cardAccountData.logo,
-        status: "working",
-        block_code: "working123",
-        default_code: "working123",
-        invoice_value: 0
-    }
-    return await cardRepository.createCardAccount(createCardAccountData)
-}
-
-export async function createLimit(card_account_id:number, cardId: number){
-    const limitData = {
-        card_account_id,
-        used_limit: 0,
-        current_limit: 700,
-        previous_limit:700,
-        status: "current",
-        cardId
-    }
-    return await cardRepository.createLimit(limitData)
-}
-
-export async function createRequest(data : receivedData, associate : Associate){
-    const account = await getAccountByAssociateId(associate.id)
+export async function createRequest(data : CreateCardData, associate : Associate){
+    const account = await accountRepository.getAccountByAssociateId(associate.id)
     const physicalCards = await cardRepository.getManyPhysicalCardsByAssociateCPF(associate.cpf)
     if(physicalCards.length !== 0){
         physicalCards.forEach(card => {
@@ -172,10 +121,4 @@ export async function getCard(cardId: number){
     const card = await cardRepository.getCardById(cardId)
     if(!card) throw { message: 'card not found', type: 'not_found'}
     return card
-}
-
-export async function changeLimit(limit : number, associateId: number){
-    const cardAccount = await associateRepository.getCardAccountByAssociateId(associateId)
-    if(!cardAccount) throw { message: 'card account not found', type: 'not_found'}
-    await cardRepository.changeLimit(limit, cardAccount.id) 
 }

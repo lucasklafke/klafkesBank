@@ -38,7 +38,7 @@ export async function getLimit(accountId:number){
             id:accountId
         },
         select:{
-            selected_limit:true
+            Limit: true
         }
     })
 

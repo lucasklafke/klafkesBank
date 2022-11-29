@@ -31,9 +31,9 @@ export async function withdraw(){
 
 }
 
-export async function getUsedLimit(req: Request, res: Response){
+export async function getInvoiceValue(req: Request, res: Response){
     const {jwtData} = res.locals.jwtData
     const {associateId} = jwtData
-    const used_limit = await transactionService.getUsedLimit(associateId)
+    const used_limit = await transactionService.getInvoiceValue(associateId)
     res.send(used_limit)
 }

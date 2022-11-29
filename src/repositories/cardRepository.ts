@@ -4,7 +4,6 @@ import {createCardData} from "../services/cardService.js"
 
 type CreateRequestData = Omit<CardRequest, "id" | "createdAt">
 
-import { createCardAccountData } from "../services/cardService.js"
 
 export async function createCardRequest(requestData : CreateRequestData ){
     return await prisma.cardRequest.create({
@@ -38,36 +37,10 @@ export async function createCard(cardData: createCardData){
     return card
 }
 
-export async function createCardAccount(createCardAccountData : createCardAccountData){
-    return await prisma.cardAccount.create({
-        data:createCardAccountData
-    })
-}
-
 type CreateLimit = Omit<Limit, "id" | "createdAt" | "previous_id" | "vingency_date" | "change_date">
 export async function createLimit(data:CreateLimit){
     await prisma.limit.create({
         data
-    })
-}
-
-export async function getLimit(cardAccount:number){
-    return await prisma.limit.findFirst({
-        where: {
-            card_account_id: cardAccount,
-            status: "current"
-        }
-    })
-
-}
-export async function updateUsedLimit(id:number,used_limit:number){
-    return await prisma.limit.update({
-        where: {
-            id
-        },
-        data: {
-            used_limit
-        }
     })
 }
 
@@ -134,30 +107,13 @@ export async function updateInvoiceValue(id: number, value: number){
     })
 }
 
-export async function changeLimit(limit:number, accountId:number){
-    await prisma.cardAccount.update({
-        where: {
-            id:accountId
-        },
-        data: {
-            selected_limit: limit
-        }
-    })
-
-}
-
 export const cardRepository = {
     createCard,
-    createCardAccount,
     getManyPhysicalCardsByAssociateCPF,
     getCardsByAssociateCpf,
     createCardRequest,
     createProcess,
     getCardByNumber,
     getCardById,
-    getLimit,
-    updateUsedLimit,
-    createLimit,
     updateInvoiceValue,
-    changeLimit
 }

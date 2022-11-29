@@ -1,14 +1,16 @@
+import { accountRepository } from "../repositories/accountRepository.js"
 import { associateRepository } from "../repositories/associateRepository.js"
+import { cardAccountRepository } from "../repositories/cardAccountRepository.js"
 import { cardRepository } from "../repositories/cardRepository.js"
 import { financialRepository } from "../repositories/financialRepository.js"
 import { transactionRepository } from "../repositories/transactionRepository.js"
 export async function getBalance(associateId: number){
-        const account = await associateRepository.getAccountByAssociateId(associateId)
+        const account = await accountRepository.getAccountByAssociateId(associateId)
         return await financialRepository.getBalance(account.id)
 }
 export async function invoicePay(associateId:number){
-        const account = await associateRepository.getAccountByAssociateId(associateId)
-        const cardAccount = await associateRepository.getCardAccountByAccountId(account.id)
+        const account = await accountRepository.getAccountByAssociateId(associateId)
+        const cardAccount = await cardAccountRepository.getCardAccountByAccountId(account.id)
         if(!cardAccount){
                 throw {type:"conflict", message:"Card account doesn't exist"}
         }
@@ -22,7 +24,7 @@ export async function invoicePay(associateId:number){
 }
 
 export async function getInvoice(associateId:number){
-        const cardAccount = await associateRepository.getCardAccountByAssociateId(associateId)
+        const cardAccount = await cardAccountRepository.getCardAccountByAssociateId(associateId)
         if(!cardAccount){
                 return {invoice_value: "0"}
         }
@@ -30,7 +32,7 @@ export async function getInvoice(associateId:number){
 }
 
 export async function getLimit(associateId:number){
-        const cardAccount = await associateRepository.getCardAccountByAssociateId(associateId)
+        const cardAccount = await cardAccountRepository.getCardAccountByAssociateId(associateId)
         if(!cardAccount){
                 return {selected_limit:0}
         }

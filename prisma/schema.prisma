@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
 }
 
 datasource db {
@@ -62,25 +63,21 @@ model Card {
   isMainCard      Boolean?
   type            String
   CardProcess     CardProcess[]
-  Limit           Limit[]
   password        String
   cpf             String
   card_account_id Int
 }
 
 model Limit {
-  id              Int         @id @default(autoincrement())
-  change_date     DateTime?   @default(now())
-  card_account_id Int
-  CardAccount     CardAccount @relation(fields: [card_account_id], references: [id])
-  used_limit      Int
-  current_limit   Int
-  previous_limit  Int
-  previous_id     Int?
-  vingency_date   DateTime?   @default(now())
-  status          String
-  Card            Card?       @relation(fields: [cardId], references: [id])
-  cardId          Int?
+  id                      Int         @id @default(autoincrement())
+  change_date             DateTime?   @default(now())
+  card_account_id         Int
+  current_selected_limit  Int // column to see the current selected limit
+  previous_selected_limit Int // column to see the last ocurrency of the selected_limit
+  previous_id             Int? // if of the last ocurrency of limit
+  vingency_date           DateTime?   @default(now())
+  current                 Boolean
+  CardAccount             CardAccount @relation(fields: [card_account_id], references: [id])
 }
 
 model Account {
@@ -98,23 +95,22 @@ model Account {
 }
 
 model CardAccount {
-  id             Int        @id @default(autoincrement())
-  accountId      Int
-  Account        Account    @relation(fields: [accountId], references: [id])
-  approved_limit Int
-  selected_limit Int
-  avaible_limit  Int?
-  dueday         DateTime
-  invoice_value  Float
-  status         String
-  canceledAt     DateTime?
-  createdAt      DateTime?  @default(now())
-  block_code     String
-  logo           String
-  default_code   String
-  Limit          Limit[]
-  Associate      Associate? @relation(fields: [associateId], references: [id])
-  associateId    Int
+  id              Int        @id @default(autoincrement())
+  accountId       Int
+  approved_limit  Int //maximum limit 
+  available_limit Int? //column to see available limit, or the balance of the account
+  dueday          DateTime //day that finish restart your invoice_value
+  invoice_value   Float //  column to see how much you have to pay when the dueday comes
+  status          String //status of the account
+  canceledAt      DateTime? // it was canceled? See when here
+  createdAt       DateTime?  @default(now())
+  block_code      String // block code is the column to see if it is blocked and why, the code show why!
+  logo            String // logo is the column to categorize your cards and benefits, ex: gold, black, platinum
+  default_code    String
+  associateId     Int
+  Limit           Limit[]
+  Associate       Associate @relation(fields: [associateId], references: [id])
+  Account         Account    @relation(fields: [accountId], references: [id])
 }
 
 model Purchase {
