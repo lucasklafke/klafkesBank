@@ -109,8 +109,8 @@ model CardAccount {
   default_code    String
   associateId     Int
   Limit           Limit[]
-  Associate       Associate @relation(fields: [associateId], references: [id])
-  Account         Account    @relation(fields: [accountId], references: [id])
+  Associate       Associate? @relation(fields: [associateId], references: [id])
+  Account         Account?    @relation(fields: [accountId], references: [id])
 }
 
 model Purchase {

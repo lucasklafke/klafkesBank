@@ -1,5 +1,6 @@
+import { CardAccount } from "@prisma/client"
 import prisma from "../config/db.js"
-import { CreateCardAccount } from "../dto/card-account.dto.js"
+import { createCardAccountData } from "../dto/card-account.dto.js"
 
 // export async function createCardAccount(data: CreateCardAccount){
 //   return await prisma.cardAccount.create({
@@ -7,8 +8,11 @@ import { CreateCardAccount } from "../dto/card-account.dto.js"
 //   })
 // }
 
-export async function createCardAccount(data: CreateCardAccount) {
-  const cardAccount = await prisma.cardAccount.create({data})
+export async function createCardAccount(data: createCardAccountData) {
+  console.log('aa',data)
+  const cardAccount = await prisma.cardAccount.create({
+    data
+  })
 }
 
 export async function getCardAccountByAssociateId(associateId:number){

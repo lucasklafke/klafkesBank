@@ -1,15 +1,16 @@
-import { receivedCardAccountInfo } from "../dto/card-account.dto"
-import { getAccountByAssociateId, getCardAccountByAccountId } from "../repositories/associateRepository"
-import { cardAccountRepository } from "../repositories/cardAccountRepository"
+import { receivedCardAccountInfo } from "../dto/card-account.dto.js"
+import * as accountService from "../services/accountService.js"
+import { cardAccountRepository } from "../repositories/cardAccountRepository.js"
 
 export async function getAvailableLimit() {
 
 }
 
 export async function createCardAccount(cardAccountData : receivedCardAccountInfo){
-  const account = await getAccountByAssociateId(cardAccountData.associateId)
+  
+  const account = await accountService.getAccountByAssociateId(cardAccountData.associateId)
   if(!account) throw {message: 'Account not found', type: 'not_found'}
-  const cardAccount = await getCardAccountByAccountId(account.id)
+  const cardAccount = await cardAccountRepository.getCardAccountByAccountId(account.id)
   if(cardAccount){
       return cardAccount
   }
@@ -18,11 +19,10 @@ export async function createCardAccount(cardAccountData : receivedCardAccountInf
   const date = new Date()
   const year = date.getFullYear() + 5
   const month = date.getMonth()
-  const dueday = new Date(`${year}-${month}-${cardAccountData.dueday}`)
+  const dueday = new Date(`${year}-${month}-${cardAccountData.invoice_dueday}`)
   const createCardAccountData = {
       associateId: cardAccountData.associateId,
       accountId: account.id,
-      selected_limit: 700,
       approved_limit: 700,
       available_limit: 700,
       dueday: dueday,
@@ -32,5 +32,5 @@ export async function createCardAccount(cardAccountData : receivedCardAccountInf
       default_code: "working123",
       invoice_value: 0
   }
-  return await cardAccountRepository.createCardAccount({ ...createCardAccountData, accountId:account.id})
+  return await cardAccountRepository.createCardAccount(createCardAccountData)
 }

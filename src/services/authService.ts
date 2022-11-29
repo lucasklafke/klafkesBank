@@ -43,8 +43,6 @@ export async function signUp(data : CreateAssociateData ){
     }
 }
 
-
-
 export async function signIn(cpf : string, password : string){
     const associate = await authRepository.getByCpf(cpf)
 
